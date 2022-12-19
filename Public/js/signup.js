@@ -28,7 +28,7 @@ signupbtn.addEventListener("click", async (e) => {
                 pswd : pswd
             });
             if(response.data.found === true){
-                message.innerText = "❌ User already exists!";
+                message.innerText = "❌ User already exists, Please Login";
             } else{
                 container.classList.add("active");
                 document.getElementById('name').value = "";

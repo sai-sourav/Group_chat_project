@@ -3,11 +3,17 @@ const dotenv = require('dotenv');
 const path = require('path');
 dotenv.config();
 const bodyparser = require('body-parser');
+const Cors = require('cors');
 const sequelize = require('./util/database');
 const userroute = require('./Routes/userroute');
 const app = express();
 
 app.use(bodyparser.json());
+
+app.use(Cors({
+    origin: "*",
+    methods: ["GET", "POST"]
+}))
 
 app.use(userroute);
 
