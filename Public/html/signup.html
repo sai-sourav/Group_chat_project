@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/user.css">
+    <title>Signup</title>
+</head>
+<body>
+    <div id="title" class="titleclass">
+        <h1>Group Chat app</h1>
+        <h3>An instant messaging tool.</h3>
+    </div>
+    <br>
+    <fieldset id="signupfield">
+        <h2>Sign Up</h2>
+        <h3>It's quick and easy.</h3>
+        <p id="exists"></p>
+        <form id="signup" class="signup-form">
+            <label for="name">Full name:</label><br>
+            <input type="text" placeholder="Enter your name" id="name" required><br><br>
+            <label for="phone">Phone no:</label><br>
+            <input type="phone" placeholder="Enter your phone number" id="phone" required><br><br>
+            <label for="email">Email id:</label><br>
+            <input type="email" placeholder="Enter your email" id="email" required><br><br>
+            <label for="pswd">Password:</label><br>
+            <input type="password" placeholder="Enter your Password" id="pswd" required><br><br>
+            <button id="signupbtn" class="signup-btn">Sign Up</button><br><br>
+            <a href="http://18.141.13.248:4000/html/signin.html">Existing User-Login</a>
+        </form>
+    </fieldset>
+    <div class="popup-container" id="container">
+        <div class="popup">
+            <fieldset id="accountcreationsuccess">
+                <p>Account created Successfully</p>
+                <p>Please login to continue</p>
+                <button id="ok">OK</button>
+            </fieldset>
+        </div>
+    </div>
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="/js/signup.js" defer></script>
+</html>
