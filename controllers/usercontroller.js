@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const User = require('../Models/user');
 const saltRounds = 10;
 const Sequelize = require('sequelize');
+const jwt = require('jsonwebtoken');
 const Op = Sequelize.Op;  
 
 exports.signupuser = async (req, res, next) => {
@@ -47,4 +48,57 @@ exports.signupuser = async (req, res, next) => {
            });
         }
     }
+}
+
+exports.usersignin = async (req, res, next) => {
+    try{
+        const emailid = req.body.emailid;
+        const pswd = req.body.pswd;
+        if((emailid === "") || (pswd === "")){
+            return res.status(500).json({fields : "empty"});
+        }
+        let search = await User.findAll({
+            where: {
+                emailid: emailid
+            }
+        });
+        if (search.length > 0){
+            search = search[0];
+            bcrypt.compare(pswd, search.password, async (err,result) => {
+                if(err){
+                    throw new Error("something went wrong");
+                }
+                else{
+                    if(result === true){
+                        res.status(200).json({
+                            email : true,
+                            pswd : true,
+                            token : generateaccesstoken(search.id)
+                        })
+                    }
+                    else {
+                        res.status(401).json({
+                            email : true,
+                            pswd : false
+                        });
+                    }
+                }
+            })
+        }else {
+            res.status(404).json({
+                email : false,
+                pswd : false
+            });
+        }
+    }catch(err) {
+        if(err) {
+           res.status(500).json({
+            error : err
+           });
+        }
+    }
+}
+
+function generateaccesstoken(id) {
+    return jwt.sign({ userid : id } , process.env.TOKEN_SECRET);
 }
