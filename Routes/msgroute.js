@@ -5,4 +5,6 @@ const Authorization = require('../middlewares/auth');
 
 route.post("/message", Authorization.authenticate, msgcontroller.postmessages);
 
+route.get("/message", Authorization.authenticate, msgcontroller.getmessages);
+
 module.exports = route;

@@ -17,3 +17,18 @@ exports.postmessages = async (req,res,next) => {
         });
     }
 }
+
+exports.getmessages = async (req,res,next) => {
+    const user = req.user;
+    try{
+        const result = await user.getMessages();
+        res.status(200).json({
+            name : user.name,
+            msg : result
+        }); 
+    }catch(err){
+        res.status(500).json({
+            error : err
+        });
+    }
+}

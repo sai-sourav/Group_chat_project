@@ -5,8 +5,32 @@ const headers = {
     }
 }
 const sendmsgbtn = document.getElementById('sendmessage');
+const chatlist = document.getElementById('chat-list');
+const IP = "http://localhost:4000";
 
-const IP = "http://localhost:4000"
+document.addEventListener("DOMContentLoaded", async (e)=>{
+    e.preventDefault();
+    getmessages();
+});
+
+async function getmessages(){
+
+    try{
+        chatlist.innerHTML = "";
+        const result = await axios.get(`${IP}/message`, headers);
+        const messages = result.data.msg;
+        const username = result.data.name;
+        for(let i=0; i<messages.length; i++){
+            const li = document.createElement('li');
+            li.innerText = `${username}: ${messages[i].msg}`;
+            chatlist.appendChild(li);
+        }
+    }catch(err){
+        if(err){
+            console.log(err);
+        }
+    }
+}
 
 sendmsgbtn.addEventListener("click", async (e)=> {
     e.preventDefault();
@@ -16,7 +40,7 @@ sendmsgbtn.addEventListener("click", async (e)=> {
             msg : message
         }, headers);
         document.getElementById('messagebox').value = "";
-        console.log(result);
+        getmessages();
     }catch(err){
         if(err){
             console.log(err);
