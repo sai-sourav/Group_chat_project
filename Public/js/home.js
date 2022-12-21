@@ -13,6 +13,12 @@ document.addEventListener("DOMContentLoaded", async (e)=>{
     getmessages();
 });
 
+// setTimeInterval(() =>. call Api , 1000)
+
+setInterval(()=>{
+    getmessages();
+}, 3000);
+
 async function getmessages(){
 
     try{
