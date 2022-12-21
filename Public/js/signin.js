@@ -35,10 +35,9 @@ signinbtn.addEventListener("click", async (e) => {
             if(response.data.email === true && response.data.pswd === true){
                 document.getElementById('email').value = "";
                 document.getElementById('pswd').value = "";
-                // var url = new URL(response.data.url);
+                var url = new URL("http://localhost:4000/html/chathome.html");
                 localStorage.setItem('token', response.data.token);
-                alert('login Successfull');
-                // location.replace(url);
+                location.replace(url);
             }
             
         }catch(err){

@@ -1,0 +1,1 @@
+[{"id":1,"amount":1000,"Description":"fuel","category":"Fuel","createdAt":"2022-12-13T22:25:21.000Z","updatedAt":"2022-12-13T22:25:21.000Z","userId":1}]
