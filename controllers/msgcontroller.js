@@ -1,5 +1,7 @@
 const Msg = require('../Models/msg');
 const User = require('../Models/user');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 exports.postmessages = async (req,res,next) => {
     const user = req.user;
@@ -20,8 +22,17 @@ exports.postmessages = async (req,res,next) => {
 
 exports.getmessages = async (req,res,next) => {
     const user = req.user;
+    const lastmessageid = req.query.lastmessageid;
+    console.log(lastmessageid);
     try{
-        const result = await user.getMessages();
+        const result = await user.getMessages({
+            where: {
+                id: { 
+                    [Op.gt]: lastmessageid
+                    // [Op.lt]: DATE_END
+                }
+            }
+        });
         res.status(200).json({
             name : user.name,
             msg : result
