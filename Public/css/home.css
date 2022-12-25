@@ -1,5 +1,5 @@
 body {
-    font-family: Arial;
+    font-family: "poppins", sans-serif;
     background-image: url('../images/mos-design-imcXmH5lGVc-unsplash.jpg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -17,23 +17,22 @@ body {
   
   #title h1{
     position: fixed;
-    top: 0%;
-    left: 34.5%;
+    left: 38%;
     font-family: 'Courier New', monospace;
     color: whitesmoke;
-    font-size: 350%;
+    top: 5vh;
   }
   
   #title h3 {
     position: fixed;
     top: 11%;
-    left: 40%;
+    left: 38%;
     font-family: 'Courier New', monospace;
     color: whitesmoke;
   }
 
   .online-container {
-    position: absolute;
+    position: relative;
     background-color: #a2c1b5a1;
     border: 2px solid black;
     top: 5%;
@@ -55,15 +54,44 @@ body {
   .contact-item {
     position: relative;
     border-radius: 15px;
-    box-shadow: 3px 7px rgba(0, 0, 0, 0.356);
+    /* box-shadow: 3px 7px rgba(0, 0, 0, 0.356); */
     width: 95%;
     height: 40px;
     line-height: 40px;
     left: 5px;
     background-color: rgb(39, 103, 81); 
     color:beige;
-    
     font-size: larger;
+  }
+
+
+  .contact-item1 {
+    position: relative;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    width: 95%;
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 10px;
+    left: 5px;
+    background-color: rgb(39, 103, 81); 
+    color:beige;
+    font-size: larger;
+  }
+
+  .contact-item1:hover {
+    background-color: rgb(69, 71, 70);  
+    color:rgb(27, 27, 23);
+    /* font-size: 30px; */
+
+  }
+
+  .contact-item1.active {
+    background-color: rgb(69, 71, 70);  
+    color:rgb(27, 27, 23);
+    font-size: 30px;
   }
 
   .contact-name {
@@ -74,15 +102,6 @@ body {
   .contact-status {
     position: static;
   }
-
-  /* .online-container h2 {
-
-  } */
-  
-  /* .lifetime-container.dark {
-    background-color:  #3e1e1ece;
-    color: whitesmoke;
-  } */
   
   .chat-container {
     position: absolute;
@@ -172,3 +191,260 @@ body {
     position: absolute;
     left: 2vh;
   }
+
+  .add-grp-members {
+    position: absolute;
+    border-radius: 15px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 20px;
+    right: 20px;
+    /* padding: 5px; */
+    top: 9px;
+    width: 24vh;
+    background-color: rgb(39, 103, 81);
+  }
+
+   .add-grp-members:hover {
+      background-color: rgb(42, 167, 125); 
+      color:rgb(27, 27, 23);
+   }
+
+#select-group {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+}
+
+/* popup related */
+
+#message {
+  font-family: inherit;
+  color: red;
+}
+
+#groupform {
+  background-color: whitesmoke;
+  border-radius: 30px;
+  padding: 45px;
+  position: relative;
+}
+
+.popup-container {
+  background: rgba(31, 31, 32, 0.5);
+  position: fixed;
+  top:0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-container.active {
+  display: flex;
+}
+
+.popup {
+  position: relative;
+  width: 250px;
+}
+
+#close {
+  background-color: whitesmoke;
+  cursor: pointer;
+  user-select: none;
+  color: red;
+  font-family: inherit;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 30px;
+  border: none;
+}
+
+input {
+  width: 290px;
+  height: 30px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 20px;
+}
+
+label {
+  font-family: inherit;
+}
+
+.savegroup-btn {
+  background-color: rebeccapurple;
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  color: white;
+  font-family: inherit;
+  left: 115px;
+  font-size: 20px;
+  padding: 0.5rem;
+  width: 150px;
+  border-radius: 10px;
+  border: none;
+}
+
+#formtitle {
+  position: absolute;
+  top: 5px;
+}
+
+/* add members popup */
+
+.popup-container-addmembers {
+  background: rgba(31, 31, 32, 0.5);
+  position: fixed;
+  top:0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-container-addmembers.active {
+  display: flex;
+}
+
+.popup-addmembers {
+  position: absolute;
+  top: 4vh;
+  width: 250px;
+  left: 30%;
+  height: 100vh;
+}
+
+#close-add-members {
+  background-color: whitesmoke;
+  cursor: pointer;
+  user-select: none;
+  color: red;
+  font-family: inherit;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 25px;
+  border: none;
+}
+
+#membersshow {
+  background-color: whitesmoke;
+  border-radius: 30px;
+  position: relative;
+  height: 90vh;
+  width: 600px;
+}
+
+#membersshow h2 {
+  position: absolute;
+  left: 50px;
+  top: 10px;
+}
+
+#memberslist {
+  position: absolute;
+  margin-top: 30px;
+  top: 50px;
+  left: 10px;
+  width: 80vh;
+  height: 40vh;
+  /* background-color: black; */
+}
+
+#memberslist h2 {
+  position: absolute;
+}
+
+.memberslistitem {
+  list-style-type: none;
+  position: relative;
+  background-color: rgb(39, 103, 81);
+  height: 40px;
+  line-height: 40px;
+  width: 90%;
+  padding-left: 20px;
+  font-size: x-large;
+  margin-bottom: 10px;
+  /* left: 20px; */
+  color: rgb(190, 198, 198);
+  border-radius: 10px;
+}
+
+.addmember {
+  background-color: rebeccapurple;
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  color: white;
+  font-family: inherit;
+  right: 10px;
+  top: 4px;
+  font-size: 20px;
+  width: 80px;
+  border-radius: 10px;
+}
+
+.addmember:hover {
+  background-color: rgb(132, 103, 160);
+  color: white;
+}
+
+.make-admin {
+  background-color: rebeccapurple;
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  color: white;
+  font-family: inherit;
+  right: 120px;
+  top: 5px;
+  font-size: 20px;
+  width: 140px;
+  border-radius: 10px;
+}
+
+.make-admin:hover {
+  background-color: rgb(132, 103, 160);
+  color: white;
+}
+
+.remove {
+  background-color: rgb(91, 34, 34);
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  color: white;
+  font-family: inherit;
+  right: 10px;
+  top: 5px;
+  font-size: 20px;
+  width: 90px;
+  border-radius: 10px;
+}
+
+.remove:hover {
+  background-color: rgb(172, 63, 63);
+}
+
+#greeting {
+  position: fixed;
+  color: black;
+  background-color: rgb(63, 84, 142);
+  height: 7vh;
+  line-height: 7vh;
+  width: fit-content;
+  padding: 0px 20px;
+  border-radius: 15px;
+  top: 2vh;
+  left: 5vh;
+}

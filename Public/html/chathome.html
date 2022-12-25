@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../css/home.css">
+    <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
     <title>Home</title>
 </head>
 <body>
@@ -13,40 +14,69 @@
         <h1>Group Chat app</h1>
         <h3>An instant messaging tool.</h3>
     </div>
+    <h2 id="greeting">Welcome Sourav!</h2>
     <br>
     <div class="container" id="container">
         <div id="home" class="home-container global">
             <div id="online" class="online-container global">
                 <div class="chat-heading global">
-                    <h2>Contacts</h2>
+                    <h2>Groups</h2>
+                    <button id="create-grp" class="add-grp-members">✙ Create Group</button>
                 </div>
                 <br>
-                <div class="contacts">
-                    <div class="contact-item">
+                <div id="contacts" class="contacts">
+                    <!-- <div class="contact-item">
                         <p class="contact-name">Krishna (Online)</p>
                     </div>
                     <div class="contact-item">
                         <p class="contact-name">Pratyusha</p>
-                    </div>
+                    </div> -->
+                    <!-- <button id="1" class="contact-item1">Dev Group</button>
+                    <br>
+                    <button id="2" class="contact-item1">other Group</button> -->
                 </div>
             </div>
-            <div id="chatbox" class="chat-container global">
-                <div class="chat-heading global">
-                    <h2>Krishna</h2>
+            <div id="chatbox" class="chat-container">
+                <div id="chat-heading" class="chat-heading global">
+                    <h2></h2>
+                    <button id="add-grp-members" class="add-grp-members">Participants</button>
                 </div>
                 <br>
                 <br>
                 <ul id="chat-list">
-                    <!-- <li>Sourav: Hai krishna</li>
-                    <li>krishna: Hai sourav</li>
-                    <li>Sourav: How are you</li>
-                    <li>krishna: iam fine. u?</li>
-                    <li>sourav: me also fine</li> -->
+                     <!-- <li>Sourav: Hai krishna</li>  -->
                 </div>
+                <h1 id="select-group">Please Select a group</h1>
                 <input type="text" id="messagebox" placeholder="Type your message">
-                <button id="sendmessage"><i class="material-icons">send</i></button>
+                <button id="sendmessage"><i class="material-icons">send</i></button> 
+            </div>  
+        </div>
+        <div class="popup-container" id="popup-container">
+            <div class="popup">
+                <fieldset id="groupform">
+                    <button id="close">X</button>
+                    <h2 id="formtitle">Group Details</h2>
+                    <p id="message"></p>
+                    <form id="addexpense" class="addExpense-form">
+                        <label for="gname">Group name:</label><br>
+                        <input type="text" placeholder="Grp name" id="gname" required><br><br>
+                        <button id="savegroup" class="savegroup-btn">Create Group</button>
+                    </form>
+                </fieldset>
             </div>
-            
+        </div>
+        <div class="popup-container-addmembers" id="popup-container-addmembers">
+            <div class="popup-addmembers">
+                <fieldset id="membersshow">
+                    <button id="close-add-members">X</button>
+                    <h2>Add members</h2><br><br>
+                    <ul id="memberslist">
+                        <li id="0" class="memberslistitem">You</li>
+                        <!-- <li id="1" class="memberslistitem">sourav <button id="1" class="addmember">✙ Add</button></li>
+                        <li id="2" class="memberslistitem">sai <button id="3" class="make-admin">make admin</button> <button id="2" class="remove">Remove</button></li> -->
+                    </ul>
+                </fieldset>
+            </div>
         </div>
     </div>
 </body>

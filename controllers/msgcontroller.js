@@ -1,14 +1,19 @@
-const Msg = require('../Models/msg');
+const Msg = require('../Models/grpmsg');
 const User = require('../Models/user');
+const Groups = require('../Models/groups');
+const Groupmembers = require('../Models/groupmems');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 exports.postmessages = async (req,res,next) => {
     const user = req.user;
     const msg = req.body.msg;
+    const finalmessage = `${user.name}: ${msg}`
+    const grpid = req.body.groupid;
     try{
-        const result = await user.createMessage({
-            msg: msg
+        const group = await Groups.findByPk(grpid);
+        const result = await group.createGrpmessage({
+            msg: finalmessage
         })
         res.status(201).json({
             created : true
@@ -23,18 +28,17 @@ exports.postmessages = async (req,res,next) => {
 exports.getmessages = async (req,res,next) => {
     const user = req.user;
     const lastmessageid = req.query.lastmessageid;
-    console.log(lastmessageid);
+    const grpid = req.query.groupid;
     try{
-        const result = await user.getMessages({
+        const group = await Groups.findByPk(grpid);
+        const result = await group.getGrpmessages({
             where: {
                 id: { 
                     [Op.gt]: lastmessageid
-                    // [Op.lt]: DATE_END
                 }
             }
         });
         res.status(200).json({
-            name : user.name,
             msg : result
         }); 
     }catch(err){

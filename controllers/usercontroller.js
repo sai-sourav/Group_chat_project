@@ -99,6 +99,13 @@ exports.usersignin = async (req, res, next) => {
     }
 }
 
+exports.getusername = (req,res,next) => {
+    const user = req.user;
+    res.status(200).json({
+        name : user.name
+    })
+}
+
 function generateaccesstoken(id) {
     return jwt.sign({ userid : id } , process.env.TOKEN_SECRET);
 }
