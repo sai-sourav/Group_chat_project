@@ -4,6 +4,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const cron = require("node-cron");
 dotenv.config();
 
 const bodyparser = require('body-parser');
@@ -21,6 +22,7 @@ const User = require('./Models/user');
 const Grpmsg = require('./Models/grpmsg');
 const Grpmems = require('./Models/groupmems');
 const Group = require('./Models/groups');
+const Archive = require('./Models/ArchivedChat');
 
 
 const app = express();
@@ -102,6 +104,41 @@ app.use((req, res, next) => {
         req.url = "html/signup.html"
     }
     res.sendFile(path.join(__dirname,`Public/${req.url}`));
+});
+
+cron.schedule("59 23 * * *", async function() {
+    try{
+        const DATE_START = new Date().setHours(0, 0, 0, 0);
+        const DATE_END = new Date().setHours(23, 59, 59, 0);
+
+        const allMessages_from_main = await Grpmsg.findAll({
+            where: {
+                createdAt: { 
+                    [Op.gt]: DATE_START,
+                    [Op.lt]: DATE_END
+                }
+            }
+        });
+
+        const Transfer_to_archive = await ArchivedChat.bulkCreate(allMessages_from_main);
+
+        const Deletemessages_from_main = await Grpmsg.destroy({
+            where: {
+                createdAt: { 
+                    [Op.gt]: DATE_START,
+                    [Op.lt]: DATE_END
+                }
+            }
+        });
+
+        console.log("cron job is successfull");
+
+
+    }catch(err){
+        if(err){
+            console.log("cron job failed!");
+        }
+    }
 });
 
 sequelize
