@@ -47,8 +47,13 @@
                      <!-- <li>Sourav: Hai krishna</li>  -->
                 </div>
                 <h1 id="select-group">Please Select a group</h1>
-                <input type="text" id="messagebox" placeholder="Type your message">
-                <button id="sendmessage"><i class="material-icons">send</i></button> 
+                <form id="messageform" enctype="multipart/form-data" method="post">
+                    <input type="text" id="messagebox" name="message" placeholder="Type your message">
+                    <input type="hidden" id="opengroupid" name="groupid">  
+                    <div id="choosediv" onclick="getFile()">Upload file</div>
+                    <input id="choosefile" type="file" class="form-control-file" name="file">
+                    <input type="submit" id="sendmessage" value="Send" >
+                </form> 
             </div>  
         </div>
         <div class="popup-container" id="popup-container">

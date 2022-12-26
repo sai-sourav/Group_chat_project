@@ -153,12 +153,39 @@ body {
     position: absolute;
     top: 64vh;
     left: 58vh;
-    width: 65%;
+    width: 58%;
     height: 40px;
     font-size: larger;
     border-radius: 20px;
     border: 0.5px solid black;
     background: #075E54;
+  }
+
+  #choosefile {
+    position: absolute;
+    height: 0px;
+    width: 0px; 
+    overflow:hidden;
+  }
+
+  #choosediv {
+    position: absolute;
+    user-select: none;
+    cursor: pointer;
+    top: 64vh;
+    right: 14vh;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+    width: 90px;
+    border-radius: 100px;
+    background-color: #075E54;  
+    border: none;
+  }
+
+  #choosediv:hover {
+    color: azure;
+    background-color: black;
   }
 
   #sendmessage {

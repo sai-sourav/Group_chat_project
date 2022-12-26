@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", (e)=>{
     document.getElementById('chat-heading').style.visibility = "hidden";
     document.getElementById('messagebox').style.visibility = "hidden";
     document.getElementById('sendmessage').style.visibility = "hidden";
+    document.getElementById('choosediv').style.visibility = "hidden";
     getusername();
     getgroups();
 });
@@ -96,7 +97,9 @@ function showgroups(groups){
 }
 // const socket = io('http://localhost:3000', { auth: { token: token}});
 
-
+function getFile() {
+    document.getElementById("choosefile").click();
+}
 
 setInterval(()=>{
     getmessages(openedgroupid);
@@ -160,12 +163,17 @@ async function getmessages(openedgroupid){
 
 function showmessages(openedgroupid){
     chatlist.innerHTML = "";
-    const data = localStorage.getItem(`${openedgroupid}`);
-    const strigifydata = JSON.parse(data);
-    const messages = strigifydata.messages;
+    const stringdata = localStorage.getItem(`${openedgroupid}`);
+    const data = JSON.parse(stringdata);
+    const messages = data.messages;
     for(let i=0; i<messages.length; i++){
         const li = document.createElement('li');
-        li.innerText = `${messages[i].msg}`;
+        if(messages[i].type === "msg"){
+            li.innerText = `${messages[i].msg}`;
+        }else if(messages[i].type === "file"){
+            const arr = messages[i].msg.split('*');
+            li.innerHTML = `${arr[0]} <a href="${arr[1]}">${messages[i].filename}</a>`
+        }
         chatlist.appendChild(li);
     }
 }
@@ -177,22 +185,55 @@ input.addEventListener("keypress", function(event) {
     }
 });
 
-sendmsgbtn.addEventListener("click", async (e)=> {
+// sendmsgbtn.addEventListener("click", async (e)=> {
+//     e.preventDefault();
+//     const message = document.getElementById('messagebox').value;
+//     const file = document.getElementById('choosefile')
+//     try{
+//         const result = await axios.post(`${IP}/message`, {
+//             msg : message,
+//             groupid : openedgroupid
+//         }, 
+//         { 
+//             headers: {
+//                 "Content-Type": "multipart/form-data",
+//                 'Authorization' : token
+//             }
+//         }
+//         );
+//         document.getElementById('messagebox').value = "";
+//         getmessages(openedgroupid);
+//     }catch(err){
+//         if(err){
+//             console.log(err);
+//         }   
+//     }
+// })
+
+
+const form = document.getElementById("messageform");
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const message = document.getElementById('messagebox').value;
+    document.getElementById('opengroupid').value = openedgroupid;
+    const formData = new FormData(form);
     try{
-        const result = await axios.post(`${IP}/message`, {
-            msg : message,
-            groupid : openedgroupid
-        }, headers);
+        const result = await axios.post(`${IP}/message`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                'Authorization' : token
+            },
+        });
         document.getElementById('messagebox').value = "";
-        getmessages(openedgroupid);
+        document.getElementById('opengroupid').value = "";
+        document.getElementById('choosefile').value = "";
     }catch(err){
         if(err){
             console.log(err);
-        }   
+        }
     }
-})
+});
+
+  
 
 
 prevbtn = document.createElement('button');
@@ -210,6 +251,7 @@ document.getElementById('contacts').addEventListener("click", (e)=> {
         document.getElementById('messagebox').style.visibility = "visible";
         document.getElementById('sendmessage').style.visibility = "visible";
         document.getElementById('select-group').style.display = "none";
+        document.getElementById('choosediv').style.visibility = "visible";
         openedgroupid = e.target.id;
         if(e.target.value === "true"){
             document.getElementById('chat-heading').innerHTML = `<h2 id="${e.target.id}">${groupname}</h2>

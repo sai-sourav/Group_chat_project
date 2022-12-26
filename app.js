@@ -33,6 +33,7 @@ Group.belongsToMany(User, { through: Grpmems});
 
 
 app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
 
 app.use(Cors({
     origin: "*"

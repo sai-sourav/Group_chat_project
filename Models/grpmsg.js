@@ -11,6 +11,14 @@ const grpmsg = sequelize.define('grpmessage', {
   msg: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  type: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: "msg"
+  },
+  filename: {
+    type: Sequelize.STRING
   }
 });
 
