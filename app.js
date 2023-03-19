@@ -5,13 +5,52 @@ const jwt = require('jsonwebtoken');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const cron = require("node-cron");
+const io = require('socket.io')(3000, {
+    cors: {
+        origin: ["http://localhost:4000"],
+    },
+});
 dotenv.config();
+
+io.use(async(socket, next) => {
+    const token = socket.handshake.auth.token;
+    try{
+        const result = jwt.verify(token, process.env.TOKEN_SECRET);
+        const userid = result.userid;
+        const user = await User.findByPk(userid);
+        socket.user = user;
+        next();
+    }catch(err){
+        if(err){
+            socket.emit('error', {
+                error : "token error"
+            })
+        }
+    }
+})
+
+io.on('connection', socket => {
+    let opengroup = 0;
+    socket.on("join-group", group => {
+        if (socket.lastRoom) {
+            socket.leave(socket.lastRoom);
+            socket.lastRoom = null;
+        }
+        socket.join(group);
+        socket.lastRoom = group;
+        opengroup = group
+        console.log(`${socket.user.name} joined ${group} `)
+        // socket.join(group);
+    })
+    socket.on('sendmessage', (uname, message) => {
+        socket.to(opengroup).emit("recieve-message", uname, message);
+    })
+})
 
 const bodyparser = require('body-parser');
 const Cors = require('cors');
 
 const sequelize = require('./util/database');
-const usercontroller = require('./controllers/usercontroller');
 
 const userroute = require('./Routes/userroute');
 const msgroute = require('./Routes/msgroute');
@@ -41,58 +80,7 @@ app.use(Cors({
     origin: "*"
 }));
 
-const io = require('socket.io')(3000, {
-    cors: {
-        origin: ["http://localhost:4000"],
-    },
-});
 
-// io.use(async(socket, next) => {
-//     const token = socket.handshake.auth.token;
-//     try{
-//         const result = jwt.verify(token, process.env.TOKEN_SECRET);
-//         const userid = result.userid;
-//         const user = await User.findByPk(userid);
-//         socket.user = user;
-//         next();
-//     }catch(err){
-//         if(err){
-//             socket.emit('error', {
-//                 error : "token error"
-//             })
-//         }
-//     }
-// })
-
-// io.on('connection', socket => {
-//     socket.on('last-message-id', async (lastmessageid) => {
-//         const user = socket.user;
-//         try{
-//             const result = await user.getMessages({
-//                 where: {
-//                     id: { 
-//                         [Op.gt]: lastmessageid
-//                     }
-//                 }
-//             });
-//             socket.emit('messages', {
-//                 name : user.name,
-//                 msg : result
-//             })
-//             // res.status(200).json({
-//             //     name : user.name,
-//             //     msg : result
-//             // }); 
-//         }catch(err){
-//             // res.status(500).json({
-//             //     error : err
-//             // });
-//             socket.emit('error', {
-//                 error : "something went wrong"
-//             })
-//         }
-//     })
-// })
 
 app.use(userroute);
 app.use(msgroute);
@@ -120,9 +108,9 @@ cron.schedule("59 23 * * *", async function() {
             }
         });
 
-        const Transfer_to_archive = await ArchivedChat.bulkCreate(allMessages_from_main);
+        await Archive.bulkCreate(allMessages_from_main);
 
-        const Deletemessages_from_main = await Grpmsg.destroy({
+        await Grpmsg.destroy({
             where: {
                 createdAt: { 
                     [Op.gt]: DATE_START,
